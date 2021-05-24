@@ -1,6 +1,4 @@
 import React, {useState} from 'react'
-import CopyRight from '../components/CopyRight'
-
 import {BrowserRouter as Router, Route, Redirect, Link, Switch} from 'react-router-dom';
 
 //Importr clsx para trabajar con las clases
@@ -10,8 +8,7 @@ import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { useHistory } from 'react-router-dom'
-import { AppBar, Badge, Container, Divider, Drawer, Grid, IconButton, List, ListItem, ListItemIcon, 
-    ListItemText, Paper, Toolbar, Typography } from '@material-ui/core'
+import { AppBar, Badge, Container, Divider, Drawer, IconButton, List, Toolbar, Typography } from '@material-ui/core'
 
 //Componentes de Material UI
 
@@ -20,14 +17,10 @@ import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import NotificationIcon from '@material-ui/icons/Notifications'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
-import MenuListItems from '../components/MenuListItems'
+import MenuListItems from '../../common-components/dashboard/MenuListItem.component';
 
-//Componentes Propios 
-import HomePage from './HomePage';
-import ShopPage from './ShopPage';
-import ContactsPage from './ContactsPage';
-import SettingsPage from './SettingsPage';
-import DashboardContent from '../routes/DashboardContent';
+import {MenuList} from '../../models/dashboard/MenuList.model'
+import DashboardContent from '../../core/routes/DashboardContent.routes';
 
 
 //Definicion de estilos
@@ -125,33 +118,36 @@ const useStyles = makeStyles (theme => ({
     }
 }))
 
-const mainMenuList = [
+
+const menuList : MenuList[] = [ 
     {
-        text: 'Home',
+        text: 'Inicio',
         path: '/home',
         icon: 'HOME'
     },
     {
-        text: 'Cart',
-        path: '/shop',
-        icon: 'CART'
+        text: 'Cuentas',
+        path: '/accounts',
+        icon: 'ACCOUNTS'
     },
     {
-        text: 'Contacts',
-        path: '/contacts',
-        icon: 'CONTACTS'
+        text: 'Tarjetas',
+        path: '/cards',
+        icon: 'CARDS'
+    },
+    {
+        text: 'Movimientos',
+        path: '/transactions',
+        icon: 'TRANSACTIONS'
+    },
+    {
+        text: 'Balance',
+        path: '/balance',
+        icon: 'BALANCE'
     }
-]
+] 
 
-const secondaryMenuList = [
-    {
-        text: 'Settings',
-        path: '/settings',
-        icon: 'SETTINGS'
-    },
-]
-
-const DashBoard = () => {
+const DashBoard : React.FC = () => {
 
     //Clases para aplicar a los elementos
     const classes = useStyles()
@@ -239,13 +235,8 @@ const DashBoard = () => {
                 <Divider/>   
                 {/* Lista de elementos de navegación del menú Principal*/}        
                 <List>
-                    <MenuListItems list={mainMenuList} />         
-                </List>
-                <Divider/> 
-                  {/* Lista de elementos de navegación del menú de Configuración*/}        
-                <List>
-                    <MenuListItems list={secondaryMenuList} />     
-                </List>  
+                    <MenuListItems list={menuList} />         
+                </List>                    
             </Drawer>  
 
             {/* Contenido del Dashboard */}
@@ -254,40 +245,10 @@ const DashBoard = () => {
                 <div className = { classes.appBarSpacer}>
                     {/* Se crea el Container */}
                     <Container className={classes.container} maxWidth = 'lg'>
-                        {/* Aqui se ponen los componentes o Switch de rutas */}  
-                                
+                        {/* Aqui se ponen los componentes o Switch de rutas */}                                  
                         <Switch>
-                            <Route path = '/dashboard' component={DashboardContent}/>                      
-                        </Switch>
-
-
-                           {/*  <Switch>
-                                <Route path = '/dashboard/home' component={DashboardContent}/>
-                                <Route path = '/dashboard/shop' component={DashboardContent}/>
-                                <Route path = '/dashboard/contacts' component={DashboardContent}/>
-                                <Route path = '/dashboard/settings' component={DashboardContent}/>
-                            </Switch>  */}
-                            {/* <Grid container spacing={3}>  
-                            <Grid item xs = {12} md={4} lg={9}>
-                                <Paper className={fixedHeightPaper}>                                  */}
-                                    {/* Crear un componente que reciba props.children */}
-                                   {/*  <Typography>Primera caja</Typography>
-                                </Paper>
-                            </Grid>
-                            
-                            <Grid item xs = {12} md={4} lg={3}>
-                                <Paper className={fixedHeightPaper}> */}
-                                    {/* Crear un componente que reciba props.children */}
-                               {/*      <Typography>Segunda caja</Typography>
-                                </Paper>
-                            </Grid>
-                            <Grid item xs = {12} md={4} lg={12}>
-                                <Paper className={fixedHeightPaper}> */}
-                                    {/* Crear un componente que reciba props.children */}
-                                 {/*    <Typography>Tercera caja</Typography>
-                                </Paper>
-                            </Grid>
-                        </Grid>       */}            
+                            <Route path = '/dashboard' component={DashboardContent}/> 
+                        </Switch>                                                               
                     </Container>
                 </div>
             </main>
